@@ -34,6 +34,12 @@ TILE_COLORS = {
     512: (237, 200, 80),
     1024: (237, 197, 63),
     2048: (237, 194, 46),
+    4096: (205, 193, 180),
+    8192: (238, 228, 218),
+    16384: (237, 224, 200),
+    32768: (242, 177, 121),
+    65536: (245, 149, 99),
+    131072: (246, 124, 95),
 }
 
 # Tile text colors
@@ -50,6 +56,12 @@ TILE_TEXT_COLORS = {
     512: (249, 246, 242),
     1024: (249, 246, 242),
     2048: (249, 246, 242),
+    4096: FONT_COLOR,
+    8192: FONT_COLOR,
+    16384: FONT_COLOR,
+    32768: (249, 246, 242),
+    65536: (249, 246, 242),
+    131072: (249, 246, 242),
 }
 
 # Fonts
@@ -70,7 +82,7 @@ class GameBinaryMerge:
         self.moves_before_spawn = 1  # Initial value
         self.moves_since_last_spawn = 0
         self.archipelago_checks = 0
-        self.location_thresholds = [4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048]  # Score thresholds for checks
+        self.location_thresholds = [4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536, 131072]  # Score thresholds for checks
         self.claimed_thresholds = []
         self.game_over = False
         
@@ -81,12 +93,8 @@ class GameBinaryMerge:
             "add_row": False,
             "add_column": False,
             "delay_spawn_moves": False
-        }
-        
-        # For testing - give player some checks to start with
-        # Comment this out for the real game
-        self.archipelago_checks = 3
-        
+        }        
+       
         # Add initial tiles
         self.add_random_tile()
         self.add_random_tile()
@@ -503,6 +511,9 @@ class GameUI:
             font_size = 36
             if value >= 1000:
                 font_size = 24
+            if value >= 60000:
+                font_size = 12
+           
             
             font = pygame.font.SysFont('Arial', font_size, bold=True)
             text = font.render(str(value), True, TILE_TEXT_COLORS.get(value, TILE_TEXT_COLORS[2048]))
